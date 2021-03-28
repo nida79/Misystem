@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <RelativeLayout
+        android:id="@+id/pop_up_change"
+        android:layout_width="342dp"
+        android:layout_height="315dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded_popup"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.42000002">
+
+        <ImageView
+            android:visibility="invisible"
+            android:id="@+id/splash_cancel_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:src="@drawable/ic_close"
+            android:contentDescription="@string/todo" />
+
+        <EditText
+            android:id="@+id/splash_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/_10sdp"
+            android:background="@drawable/rounded_popup"
+            android:elevation="@dimen/_5sdp"
+            android:hint="@string/input_no_handphone"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingTop="@dimen/_10sdp"
+            android:textColor="@color/black"
+            tools:ignore="RtlSymmetry,TextFields" />
+
+        <TextView
+            android:id="@+id/header123"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/splash_cancel_dialog"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:fontFamily="@font/dosis_bold"
+            android:text="@string/masukan_no_handphone"
+            android:textColor="@color/abu"
+            android:textSize="@dimen/_13ssp" />
+
+
+        <Button
+            android:id="@+id/splash_submit"
+            android:layout_width="@dimen/_170sdp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:backgroundTint="@color/main_color"
+            android:fontFamily="@font/dosis_bold"
+            android:text="@string/submit"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13ssp" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

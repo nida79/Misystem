@@ -7,4 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="main_color">#4FB9F5</color>
+    <color name="bottom_menu_color">#5680FF</color>
+    <color name="headr_text_color">#092754</color>
+    <color name="abu_soft">#9B9B9D</color>
+    <color name="abu">#7D7D7E</color>
 </resources>

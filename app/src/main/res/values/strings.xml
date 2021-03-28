@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">Mis</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="splash_bottom">Dapatkan Informasi Dengan
+        Mudah Dan Cepat</string>
+    <string name="mis">Management Information System</string>
+    <string name="todo">TODO</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="absensi">Absensi</string>
+    <string name="list_data">List Data</string>
+    <string name="pilih_keperluan">Pilih Keperluan</string>
+    <string name="pengaturan">Pengaturan</string>
+    <string name="icos">icos</string>
+    <string name="pegawai">Pegawai</string>
+    <string name="pelajar">Pelajar</string>
+    <string name="mohon_tunggu">Mohon Tunggu…</string>
+    <string name="scan_qr">Scan QR</string>
+    <string name="submit">Submit</string>
+    <string name="input_no_handphone">Input No Handphone</string>
+    <string name="masukan_no_handphone">Masukan No Handphone</string>
+    <string-array name="religion">
+        <item>Islam</item>
+        <item>Kristen</item>
+        <item>Katolik</item>
+        <item>Hindu</item>
+        <item>Budha</item>
+        <item>Konguchu</item>
+    </string-array>
 </resources>
