@@ -43,6 +43,7 @@ class SessionManager(context: Context) : Krate {
 
     //Data Nila
     private val PREFS_NILAI: String = "prefs_nilai"
+    private val PREFS_LAT_LONG: String = "prefs_lalo"
 
     override val sharedPreferences: SharedPreferences = context.applicationContext
         .getSharedPreferences("jularis_prefs", Context.MODE_PRIVATE)
@@ -81,6 +82,7 @@ class SessionManager(context: Context) : Krate {
 
     //data nilai
     var prefNilai by stringPref(PREFS_NILAI,"")
+    var prefLatlong by stringPref(PREFS_LAT_LONG,"")
 
     fun logOut() {
         sharedPreferences.edit().clear().apply()

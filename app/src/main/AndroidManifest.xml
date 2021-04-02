@@ -27,7 +27,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mis"
         tools:ignore="AllowBackup">
-        <activity android:name="com.ekr.mis.ui.news.DetailNewsActivity" />
+        <activity android:name="com.ekr.mis.ui.home.info.InfoActivityDetail"></activity>
+        <activity android:name=".ui.news.DetailNewsActivity" />
         <activity android:name=".ui.guest.ChooseRoleActivity" />
         <activity android:name=".ui.home.HomeMemberActivity" />
         <activity android:name=".ui.home.HomeGuestActivity" />

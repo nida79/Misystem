@@ -6,6 +6,8 @@ import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
@@ -15,11 +17,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ekr.mis.data.splash.ResponseSplash
 import com.ekr.mis.databinding.ActivitySplashBinding
 import com.ekr.mis.ui.guest.ChooseRoleActivity
-import com.ekr.mis.ui.home.HomeMemberActivity
+import com.ekr.mis.ui.home.HomeGuestActivity
 import com.ekr.mis.utils.DialogHelper
 import com.ekr.mis.utils.SessionManager
 import com.ekr.mis.utils.UserDataFetcher
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -36,10 +39,12 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
     private lateinit var sessionManager: SessionManager
     private var kordinat = ""
     private var email = ""
+    private var test_email = "titin.iswahyudi@nashiruddin.mil.id"
+    private var test_hp = "(+62) 872 7143 409"
     private lateinit var dialog: Dialog
     private lateinit var loading_dialog: Dialog
 
-    @SuppressLint("VisibleForTests")
+    @SuppressLint("VisibleForTests", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivitySplashBinding.inflate(layoutInflater)
@@ -49,48 +54,27 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         sessionManager = SessionManager(this)
         dialog = DialogHelper.splashPhonenumber(this)
         loading_dialog = DialogHelper.globalLoading(this)
         presenter = SplashPresenter(this)
-        fusedLocationProviderClient = FusedLocationProviderClient(this)
-
-
+        requestPermission()
     }
 
     override fun onStart() {
         super.onStart()
-        requestPermission()
-        when {
-            sessionManager.prefNohp.isEmpty() || sessionManager.prefNohp == "" -> {
-                dialog.show()
-            }
-            kordinat == "" && email == "" -> {
-                requestPermission()
-            }
-            kordinat != "" && email != "" && sessionManager.prefNohp != "" -> {
-                presenter.doGetData(
-                    email,
-                    sessionManager.prefNohp,
-                    kordinat
-                )
-            }
-            else -> {
-                requestPermission()
-            }
-        }
+        postData()
     }
 
     private fun requestPermission() {
-        Dexter.withActivity(this)
+        Dexter.withContext(this)
             .withPermissions(
                 Manifest.permission.GET_ACCOUNTS,
-                Manifest.permission.READ_CONTACTS,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
             )
             .withListener(object : MultiplePermissionsListener {
-                @SuppressLint("MissingPermission")
                 override fun onPermissionsChecked(report: MultiplePermissionsReport) {
                     if (report.areAllPermissionsGranted()) {
                         //GET PRIMARY EMAIL
@@ -100,7 +84,6 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
                             _binding.lokasiSplash,
                             applicationContext
                         )
-
                     }
 
                     if (report.isAnyPermissionPermanentlyDenied) {
@@ -137,6 +120,8 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
                 showMessage("Lokasi Belum Ditemukan Mohon Tunggu Beberapa Saat")
                 requestPermission()
             } else {
+                sessionManager.prefLatlong = kordinat
+                sessionManager.prefEmail = email
                 presenter.doGetData(
                     email,
                     dialog.splash_phone_number.text.toString(),
@@ -145,9 +130,6 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
                 dialog.dismiss()
             }
 
-        }
-        dialog.splash_cancel_dialog.setOnClickListener {
-            dialog.dismiss()
         }
         dialog.setOnKeyListener { _, key, _ ->
             if (key == KeyEvent.KEYCODE_BACK) {
@@ -159,21 +141,32 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
     }
 
     override fun onResult(responseSplash: ResponseSplash) {
-        responseSplash.let { presenter.setSession(sessionManager, responseSplash) }
+        responseSplash.let {
+            presenter.setSession(
+                sessionManager,
+                responseSplash,
+                kordinat
+            )
+        }
         if (responseSplash.status) {
-            startActivity(Intent(this, HomeMemberActivity::class.java))
+            startActivity(Intent(this, HomeGuestActivity::class.java))
+            finishAffinity()
+            finish()
+        } else {
+            startActivity(Intent(this, ChooseRoleActivity::class.java))
             finishAffinity()
             finish()
         }
-        startActivity(Intent(this, ChooseRoleActivity::class.java))
-       /* if (responseSplash.dataUser.penilaian != null) {
-            val json = JSONObject(responseSplash.dataUser.penilaian)
-            val keys: Iterator<*> = json.keys()
-            while (keys.hasNext()) {
-                val kunci = keys.next() as String
-                val isi = json.getString(kunci)
-            }
-        } */
+
+
+        /* if (responseSplash.dataUser.penilaian != null) {
+             val json = JSONObject(responseSplash.dataUser.penilaian)
+             val keys: Iterator<*> = json.keys()
+             while (keys.hasNext()) {
+                 val kunci = keys.next() as String
+                 val isi = json.getString(kunci)
+             }
+         } */
 
 
     }
@@ -195,18 +188,53 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
         }
     }
 
+    private fun postData() {
+        requestPermission()
+        if (sessionManager.prefNohp.isEmpty()) {
+            dialog.show()
+        } else {
+            Handler(Looper.myLooper()!!).postDelayed({ _binding.splashProgress.performClick() }, 1000)
+            _binding.splashProgress.setOnClickListener {
+                kordinat = _binding.lokasiSplash.text.toString()
+                presenter.doGetData(
+                    sessionManager.prefEmail,
+                    sessionManager.prefNohp,
+                    kordinat
+                )
+            }
+
+        }
+        /*  when {
+              sessionManager.prefNohp.isEmpty() -> {
+                  dialog.show()
+              }
+
+              kordinat.isEmpty() || kordinat == "" -> {
+                  requestPermission()
+                  if (sessionManager.prefNohp.isNotEmpty()) {
+                      presenter.doGetData(
+                          test_email,
+                          test_hp,
+                          kordinat
+                      )
+                  }
+              }
+          } */
+
+    }
+
     override fun onResume() {
         super.onResume()
         when {
+            sessionManager.prefNohp.isEmpty() -> {
+                dialog.show()
+            }
             kordinat == "" -> {
                 UserDataFetcher.startLocationUpdates(
                     _binding.lokasiSplash,
                     fusedLocationProviderClient,
                     this@SplashActivity
                 )
-            }
-            sessionManager.prefNohp.isEmpty() -> {
-                dialog.show()
             }
             kordinat != "" && sessionManager.prefNohp.isNotEmpty() -> {
                 presenter.doGetData(
@@ -220,13 +248,9 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
 
     }
 
-    override fun onPause() {
-        super.onPause()
-        UserDataFetcher.stopLocationUpdates(fusedLocationProviderClient)
-    }
-
     override fun onBackPressed() {
         finishAffinity()
         finish()
     }
+
 }

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.home.info.InfoActivityDetail">
+
+    <ImageView
+        android:id="@+id/img_detail"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_250sdp"
+        android:background="@color/abu_soft"
+        android:contentDescription="@string/todo"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/tv_tittle_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:fontFamily="@font/graphik_semibold"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_15ssp"
+        tools:text="Institu teknologi Budi Utomo" />
+
+    <TextView
+        android:id="@+id/tv_alamat_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:drawablePadding="@dimen/_5sdp"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        app:drawableStartCompat="@drawable/ic_location"
+        tools:text="Institu teknologi Budi Utomo" />
+
+    <TextView
+        android:id="@+id/tv_email_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:drawablePadding="@dimen/_5sdp"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        app:drawableStartCompat="@drawable/ic_email"
+        tools:text="itbu@ac.id" />
+
+    <TextView
+        android:id="@+id/tv_contact_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:drawablePadding="@dimen/_5sdp"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        app:drawableStartCompat="@drawable/ic_call"
+        tools:text="+612120312123" />
+
+</LinearLayout>

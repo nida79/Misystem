@@ -2,22 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/navigation_home_member"
+        android:id="@+id/navigation_home_guest"
         android:icon="@drawable/ic_home"
         android:title="@string/home"
-        app:cnb_iconColor="@color/teal_200" />
+        app:cnb_iconColor="@color/main_color" />
 
     <item
-        android:id="@+id/navigation_product"
+        android:id="@+id/navigation_scan_guest"
         android:icon="@drawable/ic_scan"
         android:title="@string/scan_qr"
         app:cnb_iconColor="@color/teal_200" />
 
-
+    <item
+        android:id="@+id/navigation_regist_guest"
+        android:icon="@drawable/ic_person"
+        android:title="@string/pendaftaran"
+        app:cnb_iconColor="@color/orange" />
 
     <item
-        android:id="@+id/navigation_setting_member"
+        android:id="@+id/navigation_setting_guest"
         android:icon="@drawable/ic_outline_settings"
         android:title="@string/pengaturan"
-        app:cnb_iconColor="@color/teal_200" />
+        app:cnb_iconColor="@color/black" />
 </menu>

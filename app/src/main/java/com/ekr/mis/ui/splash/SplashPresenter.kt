@@ -18,39 +18,49 @@ class SplashPresenter(val view: SplashContract.View) : SplashContract.Presenter 
 
     override fun doGetData(email: String, phone_number: String, lat_long: String) {
         view.loading(true)
-        ApiService.endpoint.checkUser("titin.iswahyudi@nashiruddin.mil.id", "(+62) 872 7143 409", lat_long).enqueue(object :
-            Callback<ResponseSplash> {
-            override fun onResponse(
-                call: Call<ResponseSplash>,
-                response: Response<ResponseSplash>
-            ) {
-                view.loading(false)
-                when {
-                    response.isSuccessful -> {
-                        val responseSplash: ResponseSplash = response.body()!!
-                        view.onResult(responseSplash)
+        ApiService.endpoint.checkUser(email, phone_number, lat_long)
+            .enqueue(object : Callback<ResponseSplash> {
+                override fun onResponse(
+                    call: Call<ResponseSplash>,
+                    response: Response<ResponseSplash>
+                ) {
+                    view.loading(false)
+                    when {
+                        response.isSuccessful -> {
+                            val responseSplash: ResponseSplash = response.body()!!
+                            view.onResult(responseSplash)
 
-                    }
-                    response.code() != 200 -> {
-                        val responseGlobal: ResponseError = Gson().fromJson(
-                            response.errorBody()!!.charStream(),
-                            ResponseError::class.java
-                        )
-                        responseGlobal.message?.let { view.showMessage(it) }
+                        }
+                        response.code() != 200 -> {
+                            val responseGlobal: ResponseError = Gson().fromJson(
+                                response.errorBody()!!.charStream(),
+                                ResponseError::class.java
+                            )
+                            responseGlobal.message?.let { view.showMessage(it) }
+                        }
                     }
                 }
-            }
 
-            override fun onFailure(call: Call<ResponseSplash>, t: Throwable) {
-                view.loading(false)
-                view.showMessage("Terjadi Kesalahan, Silahkan Coba Kembali")
-            }
-        })
+                override fun onFailure(call: Call<ResponseSplash>, t: Throwable) {
+                    view.loading(false)
+                    view.showMessage("Terjadi Kesalahan, Silahkan Coba Kembali")
+                }
+            })
     }
 
-    override fun setSession(sessionManager: SessionManager, responseSplash: ResponseSplash) {
+    override fun setSession(
+        sessionManager: SessionManager,
+        responseSplash: ResponseSplash,
+        lat_long: String
+    ) {
+        sessionManager.prefLatlong = lat_long
         responseSplash.token?.let { sessionManager.prefToken = it }
-        responseSplash.dataUser.penilaian?.let { sessionManager.prefNilai = it }
+        if (responseSplash.token != null) {
+            sessionManager.prefToken = responseSplash.token
+        }
+        if (responseSplash.dataUser.penilaian != null) {
+            sessionManager.prefNilai = responseSplash.dataUser.penilaian
+        }
         val mainPath = responseSplash.mainPath
         val dataOrtu = responseSplash.dataUser.dataOrangTua
         val data = responseSplash.dataUser.dataLengkapAnggota

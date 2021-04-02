@@ -20,6 +20,12 @@
     <string name="submit">Submit</string>
     <string name="input_no_handphone">Input No Handphone</string>
     <string name="masukan_no_handphone">Masukan No Handphone</string>
+    <string name="management_information_system">Management Information System</string>
+    <string name="info_umum">Info Umum</string>
+    <string name="info_sekolah">Info Sekolah</string>
+    <string name="tidak_ada_info">Tidak Ada Info</string>
+    <string name="input_id_qr">Input ID QR</string>
+    <string name="pendaftaran">Pendaftaran</string>
     <string-array name="religion">
         <item>Islam</item>
         <item>Kristen</item>

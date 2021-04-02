@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.guest.qrcode.QrScanFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.budiyev.android.codescanner.CodeScannerView
+        android:id="@+id/scan_qr"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="@dimen/_270sdp"
+        app:autoFocusButtonColor="@color/white"
+        app:autoFocusButtonVisible="true"
+        app:flashButtonColor="@color/white"
+        app:flashButtonVisible="true"
+        app:maskColor="#6C000000" />
 
-</FrameLayout>
+
+    <EditText
+        android:id="@+id/tv_result_qr"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_margin="@dimen/_10sdp"
+        android:background="@drawable/rounded_popup"
+        android:elevation="@dimen/_5sdp"
+        android:hint="@string/input_id_qr"
+        android:inputType="text"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingTop="@dimen/_10sdp"
+        android:textColor="@color/black"
+        tools:ignore="RtlSymmetry" />
+
+    <Button
+        android:id="@+id/btn_send_qr"
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="55dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:backgroundTint="@color/main_color"
+        android:fontFamily="@font/graphik_semibold"
+        android:text="@string/submit"
+        android:textSize="@dimen/_13ssp"/>
+
+</LinearLayout>
