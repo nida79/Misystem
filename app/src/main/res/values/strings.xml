@@ -26,6 +26,14 @@
     <string name="tidak_ada_info">Tidak Ada Info</string>
     <string name="input_id_qr">Input ID QR</string>
     <string name="pendaftaran">Pendaftaran</string>
+    <string name="nama_lengkap">Nama Lengkap</string>
+    <string name="email">Email</string>
+    <string name="alamat">Alamat</string>
+    <string name="lengkapi_pendaftaran">Lengkapi Pendaftaran</string>
+    <string name="ambil_gambar">Ambil Gambar</string>
+    <string name="input_no_hp">Input No HP</string>
+    <string name="id_qr">ID QR :</string>
+    <string name="kode_pos">Kode Pos</string>
     <string-array name="religion">
         <item>Islam</item>
         <item>Kristen</item>

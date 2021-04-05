@@ -17,8 +17,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ekr.mis.data.splash.ResponseSplash
 import com.ekr.mis.databinding.ActivitySplashBinding
 import com.ekr.mis.ui.guest.ChooseRoleActivity
-import com.ekr.mis.ui.home.HomeGuestActivity
+import com.ekr.mis.ui.home.HomeMemberActivity
 import com.ekr.mis.utils.DialogHelper
+import com.ekr.mis.utils.SentenceMessage
 import com.ekr.mis.utils.SessionManager
 import com.ekr.mis.utils.UserDataFetcher
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -39,8 +40,6 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
     private lateinit var sessionManager: SessionManager
     private var kordinat = ""
     private var email = ""
-    private var test_email = "titin.iswahyudi@nashiruddin.mil.id"
-    private var test_hp = "(+62) 872 7143 409"
     private lateinit var dialog: Dialog
     private lateinit var loading_dialog: Dialog
 
@@ -56,7 +55,7 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
         )
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         sessionManager = SessionManager(this)
-        dialog = DialogHelper.splashPhonenumber(this)
+        dialog = DialogHelper.splashPhoneNumber(this)
         loading_dialog = DialogHelper.globalLoading(this)
         presenter = SplashPresenter(this)
         requestPermission()
@@ -71,6 +70,7 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
         Dexter.withContext(this)
             .withPermissions(
                 Manifest.permission.GET_ACCOUNTS,
+                Manifest.permission.READ_CONTACTS,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
             )
@@ -113,9 +113,9 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
         _binding.splashAppVer.text = "App V.${info.versionName}"
         dialog.splash_submit.setOnClickListener {
             requestPermission()
-            if (dialog.splash_phone_number.text.toString().isEmpty()) {
-                dialog.splash_phone_number.error = "Kolom Tidak Boleh Kosong"
-                dialog.splash_phone_number.requestFocus()
+            if (dialog.edt_nohp_splash.text.toString().isEmpty()) {
+                dialog.edt_nohp_splash.error = "Kolom Tidak Boleh Kosong"
+                dialog.edt_nohp_splash.requestFocus()
             } else if (kordinat.isEmpty() || kordinat == "") {
                 showMessage("Lokasi Belum Ditemukan Mohon Tunggu Beberapa Saat")
                 requestPermission()
@@ -124,7 +124,7 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
                 sessionManager.prefEmail = email
                 presenter.doGetData(
                     email,
-                    dialog.splash_phone_number.text.toString(),
+                    dialog.edt_nohp_splash.text.toString(),
                     kordinat
                 )
                 dialog.dismiss()
@@ -149,7 +149,7 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
             )
         }
         if (responseSplash.status) {
-            startActivity(Intent(this, HomeGuestActivity::class.java))
+            startActivity(Intent(this, HomeMemberActivity::class.java))
             finishAffinity()
             finish()
         } else {
@@ -178,6 +178,9 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
                 message,
                 Toast.LENGTH_SHORT
             ).show()
+            if (message == SentenceMessage.ERROR_MESSAGE) {
+                postData()
+            }
         }
     }
 
@@ -193,7 +196,10 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
         if (sessionManager.prefNohp.isEmpty()) {
             dialog.show()
         } else {
-            Handler(Looper.myLooper()!!).postDelayed({ _binding.splashProgress.performClick() }, 1000)
+            Handler(Looper.myLooper()!!).postDelayed(
+                { _binding.splashProgress.performClick() },
+                1000
+            )
             _binding.splashProgress.setOnClickListener {
                 kordinat = _binding.lokasiSplash.text.toString()
                 presenter.doGetData(
@@ -204,22 +210,6 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
             }
 
         }
-        /*  when {
-              sessionManager.prefNohp.isEmpty() -> {
-                  dialog.show()
-              }
-
-              kordinat.isEmpty() || kordinat == "" -> {
-                  requestPermission()
-                  if (sessionManager.prefNohp.isNotEmpty()) {
-                      presenter.doGetData(
-                          test_email,
-                          test_hp,
-                          kordinat
-                      )
-                  }
-              }
-          } */
 
     }
 

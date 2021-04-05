@@ -29,7 +29,7 @@ class DialogHelper {
             return dialog
         }
 
-        fun splashPhonenumber(activity: Activity): Dialog {
+        fun splashPhoneNumber(activity: Activity): Dialog {
             val dialog = Dialog(activity)
             dialog.setContentView(R.layout.dialog_phone_number)
             dialog.setCanceledOnTouchOutside(false)

@@ -1,5 +1,6 @@
 package com.ekr.mis.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import com.ekr.mis.databinding.ActivityHomeGuestBinding
 import com.ekr.mis.ui.guest.qrcode.QrScanFragment
 import com.ekr.mis.ui.guest.register.RegisterFragment
 import com.ekr.mis.ui.setting.SettingFragment
+
 
 class HomeGuestActivity : AppCompatActivity() {
     var exit: Long = 0
@@ -57,6 +59,13 @@ class HomeGuestActivity : AppCompatActivity() {
         } else {
             finishAffinity()
             finish()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        for (fragment in supportFragmentManager.fragments) {
+            fragment.onActivityResult(requestCode, resultCode, data)
         }
     }
 }

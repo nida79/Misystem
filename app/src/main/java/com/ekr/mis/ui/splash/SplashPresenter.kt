@@ -3,6 +3,7 @@ package com.ekr.mis.ui.splash
 import com.ekr.mis.data.ResponseError
 import com.ekr.mis.data.splash.ResponseSplash
 import com.ekr.mis.networking.ApiService
+import com.ekr.mis.utils.SentenceMessage
 import com.ekr.mis.utils.SessionManager
 import com.google.gson.Gson
 import retrofit2.Call
@@ -43,7 +44,7 @@ class SplashPresenter(val view: SplashContract.View) : SplashContract.Presenter 
 
                 override fun onFailure(call: Call<ResponseSplash>, t: Throwable) {
                     view.loading(false)
-                    view.showMessage("Terjadi Kesalahan, Silahkan Coba Kembali")
+                    view.showMessage(SentenceMessage.ERROR_MESSAGE)
                 }
             })
     }

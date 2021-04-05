@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ekr.mis.databinding.ActivityChooseRoleBinding
 import com.ekr.mis.ui.home.HomeGuestActivity
+import com.ekr.mis.utils.SentenceMessage
 import com.ekr.mis.utils.SessionManager
-import com.ekr.mis.utils.TagLog
 
 class ChooseRoleActivity : AppCompatActivity() {
     private lateinit var _binding: ActivityChooseRoleBinding
@@ -18,13 +18,13 @@ class ChooseRoleActivity : AppCompatActivity() {
         setContentView(view)
         sessionManager = SessionManager(this)
         _binding.cvPegawai.setOnClickListener {
-            sessionManager.prefRole = TagLog.WORKER.toString()
+            sessionManager.prefRole = SentenceMessage.WORKER.toString()
             startActivity(Intent(this, HomeGuestActivity::class.java))
             finishAffinity()
             finish()
         }
         _binding.cvPelajar.setOnClickListener {
-            sessionManager.prefRole = TagLog.STUDENT.toString()
+            sessionManager.prefRole = SentenceMessage.STUDENT.toString()
             startActivity(Intent(this, HomeGuestActivity::class.java))
             finishAffinity()
             finish()

@@ -45,6 +45,8 @@ class SessionManager(context: Context) : Krate {
     private val PREFS_NILAI: String = "prefs_nilai"
     private val PREFS_LAT_LONG: String = "prefs_lalo"
 
+    private val ID_QR : String ="id_qr"
+
     override val sharedPreferences: SharedPreferences = context.applicationContext
         .getSharedPreferences("jularis_prefs", Context.MODE_PRIVATE)
     var prefIsLogin by booleanPref(PREFS_IS_LOGIN, false)
@@ -69,6 +71,7 @@ class SessionManager(context: Context) : Krate {
     var prefNik by stringPref(PREFS_NIK, "")
     var prefTempatLahir by stringPref(PREFS_TEMPAT_LAHIR, "")
     var prefTangglaLahir by stringPref(PREFS_TGL_LAHIR, "")
+    var prefIdQR by stringPref(ID_QR, "")
 
     //Data Orang Tua
     var prefFotoOrangtua by stringPref(PREFS_FOTO_ORTU, "")

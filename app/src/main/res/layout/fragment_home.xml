@@ -89,6 +89,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_location_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -104,6 +105,7 @@
             tools:text="Jalan Pelita Indah 2 RT 08" />
 
         <com.google.android.material.tabs.TabLayout
+            android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/tab_layout_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

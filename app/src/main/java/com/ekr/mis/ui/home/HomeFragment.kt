@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import com.ekr.mis.databinding.FragmentHomeBinding
 import com.ekr.mis.ui.home.info.general.InfoFragmentGeneral
 import com.ekr.mis.ui.home.info.organization.InfoFragmentOranization
+import com.ekr.mis.utils.SentenceMessage
 import com.ekr.mis.utils.SessionManager
-import com.ekr.mis.utils.TagLog
 import java.util.*
 
 
@@ -27,8 +27,8 @@ class HomeFragment : Fragment() {
         sessionManager = SessionManager(requireContext())
         var textHeader = ""
         when (sessionManager.prefRole) {
-            TagLog.STUDENT.toString() -> textHeader = "Info Sekolah"
-            TagLog.WORKER.toString() -> textHeader = "Info Organisasi"
+            SentenceMessage.STUDENT.toString() -> textHeader = "Info Sekolah"
+            SentenceMessage.WORKER.toString() -> textHeader = "Info Organisasi"
         }
         val lalo = sessionManager.prefLatlong
         val geoCoder = Geocoder(requireActivity(), Locale.getDefault())

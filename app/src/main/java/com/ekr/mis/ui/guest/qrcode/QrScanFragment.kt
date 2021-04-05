@@ -12,9 +12,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.budiyev.android.codescanner.*
+import com.ekr.mis.R
 import com.ekr.mis.databinding.FragmentQrScanBinding
+import com.ekr.mis.ui.guest.register.RegisterFragment
+import com.ekr.mis.utils.SentenceMessage
 import com.ekr.mis.utils.SessionManager
-import com.ekr.mis.utils.TagLog
 
 class QrScanFragment : Fragment() {
     private lateinit var codeScanner: CodeScanner
@@ -28,6 +30,23 @@ class QrScanFragment : Fragment() {
 
         setUpPermission()
         setUpScanner()
+        binding.btnSendQr.setOnClickListener {
+            val idQR = binding.tvResultQr.text.toString()
+           if (idQR.isEmpty()){
+               binding.tvResultQr.error = SentenceMessage.NULL_MESSAGE
+               binding.tvResultQr.requestFocus()
+           }else{
+               sessionManager.prefIdQR = idQR
+               val registerFragment = RegisterFragment()
+               if (activity!=null){
+                   activity?.supportFragmentManager?.beginTransaction()
+                       ?.replace(R.id.fragment_container_guest, registerFragment)?.addToBackStack(null)
+                       ?.commit()
+               }
+           }
+
+
+        }
     }
 
     private fun setUpPermission() {
@@ -83,7 +102,7 @@ class QrScanFragment : Fragment() {
             }
             errorCallback = ErrorCallback {
                 activity?.runOnUiThread {
-                    Log.e(TagLog.TAG_ERROR, "Camera Scan Error: ${it.message}")
+                    Log.e(SentenceMessage.TAG_ERROR, "Camera Scan Error: ${it.message}")
                 }
             }
 

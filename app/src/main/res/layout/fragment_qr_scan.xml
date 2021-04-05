@@ -11,26 +11,34 @@
         android:id="@+id/scan_qr"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_270sdp"
+        android:layout_marginBottom="@dimen/_50sdp"
         app:autoFocusButtonColor="@color/white"
         app:autoFocusButtonVisible="true"
         app:flashButtonColor="@color/white"
         app:flashButtonVisible="true"
         app:maskColor="#6C000000" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:text="@string/id_qr"
+        android:fontFamily="@font/dosis_bold"
+        android:textColor="@color/abu_soft"/>
 
     <EditText
         android:id="@+id/tv_result_qr"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_margin="@dimen/_10sdp"
-        android:background="@drawable/rounded_popup"
+        android:background="@drawable/bg_input"
         android:elevation="@dimen/_5sdp"
         android:hint="@string/input_id_qr"
-        android:inputType="text"
+        android:inputType="number"
         android:paddingStart="@dimen/_10sdp"
-        android:paddingTop="@dimen/_10sdp"
         android:textColor="@color/black"
-        tools:ignore="RtlSymmetry" />
+        tools:ignore="RtlSymmetry"
+        android:importantForAutofill="no" />
 
     <Button
         android:id="@+id/btn_send_qr"

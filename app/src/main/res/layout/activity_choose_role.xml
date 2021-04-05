@@ -28,7 +28,7 @@
             android:layout_weight="1"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="@dimen/_6sdp"
-            app:cardElevation="@dimen/_10sdp">
+            app:cardElevation="@dimen/_6sdp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -63,7 +63,7 @@
             android:layout_weight="1"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="@dimen/_6sdp"
-            app:cardElevation="@dimen/_10sdp">
+            app:cardElevation="@dimen/_6sdp">
 
             <RelativeLayout
                 android:layout_width="match_parent"

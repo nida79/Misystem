@@ -23,8 +23,9 @@ class InfoFragmentOranization : Fragment(), OrganizationContract.View {
     private lateinit var sessionManager: SessionManager
     private lateinit var manager: LinearLayoutManager
     private lateinit var presenter: OrgPresenter
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         sessionManager = SessionManager(requireContext())
         presenter = OrgPresenter(this)
     }
