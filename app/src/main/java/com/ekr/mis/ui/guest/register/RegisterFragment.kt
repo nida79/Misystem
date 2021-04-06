@@ -208,7 +208,6 @@ class RegisterFragment : Fragment(), RegisterContract.View {
                 binding.imgRegist.setImageURI(fileUri)
                 binding.imgRegist.visibility = View.VISIBLE
                 file = ImagePicker.getFile(data)!!
-                showMessage(file!!.path.toString())
             }
             ImagePicker.RESULT_ERROR -> {
                 Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT)

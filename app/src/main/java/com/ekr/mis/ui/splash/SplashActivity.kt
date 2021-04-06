@@ -3,16 +3,20 @@ package com.ekr.mis.ui.splash
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.ekr.mis.data.splash.ResponseSplash
 import com.ekr.mis.databinding.ActivitySplashBinding
@@ -41,7 +45,7 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
     private var kordinat = ""
     private var email = ""
     private lateinit var dialog: Dialog
-    private lateinit var loading_dialog: Dialog
+    private lateinit var dialogLoading: Dialog
 
     @SuppressLint("VisibleForTests", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,9 +60,8 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         sessionManager = SessionManager(this)
         dialog = DialogHelper.splashPhoneNumber(this)
-        loading_dialog = DialogHelper.globalLoading(this)
+        dialogLoading = DialogHelper.globalLoading(this)
         presenter = SplashPresenter(this)
-        requestPermission()
     }
 
     override fun onStart() {
@@ -66,45 +69,6 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
         postData()
     }
 
-    private fun requestPermission() {
-        Dexter.withContext(this)
-            .withPermissions(
-                Manifest.permission.GET_ACCOUNTS,
-                Manifest.permission.READ_CONTACTS,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-            )
-            .withListener(object : MultiplePermissionsListener {
-                override fun onPermissionsChecked(report: MultiplePermissionsReport) {
-                    if (report.areAllPermissionsGranted()) {
-                        //GET PRIMARY EMAIL
-                        email = UserDataFetcher.getEmail(this@SplashActivity).toString()
-                        // GET MY CURRENT LOCATION
-                        kordinat = UserDataFetcher.getLocation(
-                            _binding.lokasiSplash,
-                            applicationContext
-                        )
-                    }
-
-                    if (report.isAnyPermissionPermanentlyDenied) {
-                        DialogHelper.showSettingsDialog(this@SplashActivity)
-                    }
-                }
-
-                override fun onPermissionRationaleShouldBeShown(
-                    permissions: List<PermissionRequest>,
-                    token: PermissionToken
-                ) {
-                    token.continuePermissionRequest()
-                }
-            })
-            .withErrorListener {
-                Log.e("Splash", "requestPermission: ${it.name}")
-            }
-            .onSameThread()
-            .check()
-
-    }
 
     @SuppressLint("SetTextI18n")
     override fun initListener() {
@@ -236,6 +200,67 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
 
         }
 
+    }
+
+    private fun requestPermission() {
+        Dexter.withContext(this)
+            .withPermissions(
+                Manifest.permission.GET_ACCOUNTS,
+                Manifest.permission.READ_CONTACTS,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+            )
+            .withListener(object : MultiplePermissionsListener {
+                override fun onPermissionsChecked(report: MultiplePermissionsReport) {
+                    if (report.areAllPermissionsGranted()) {
+                        //GET PRIMARY EMAIL
+                        email = UserDataFetcher.getEmail(this@SplashActivity).toString()
+                        // GET MY CURRENT LOCATION
+                        kordinat = UserDataFetcher.getLocation(
+                            _binding.lokasiSplash,
+                            applicationContext
+                        )
+                    }
+
+                    if (report.isAnyPermissionPermanentlyDenied) {
+                        showSettingsDialog()
+                    }
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    permissions: List<PermissionRequest>,
+                    token: PermissionToken
+                ) {
+                    token.continuePermissionRequest()
+                }
+            })
+            .withErrorListener {
+                Log.e("Splash", "requestPermission: ${it.name}")
+            }
+            .onSameThread()
+            .check()
+
+    }
+
+    private fun showSettingsDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Perizinan Diperlukan")
+        builder.setMessage("Aktifkan Perizinan untuk Melakukan Absensi")
+        builder.setPositiveButton("BUKA PENGATURAN") { dialog: DialogInterface, _: Int ->
+            dialog.cancel()
+            openSetting()
+        }
+        builder.setNegativeButton(
+            "Cancel"
+        ) { dialog: DialogInterface, _: Int -> dialog.cancel() }
+        builder.show()
+    }
+
+    private fun openSetting() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri = Uri.fromParts("package", packageName, null)
+        intent.data = uri
+        startActivityForResult(intent, 101)
     }
 
     override fun onBackPressed() {
